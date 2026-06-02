@@ -1,0 +1,19 @@
+# Per-persona TTS PipeWire loopback (creates the audio-OUT virtual devices).
+# Install as a concrete unit <name>-voip-tts.service (the scaffold script does this),
+# or use the template form: systemctl --user enable --now voip-tts@ada
+#
+# Install: ~/.config/systemd/user/voip-tts@.service
+
+[Unit]
+Description=%i VoIP TTS (PipeWire loopback)
+After=pipewire.service
+Wants=pipewire.service
+
+[Service]
+Type=simple
+ExecStart=%h/voip-%i/tts-loopback.sh
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target

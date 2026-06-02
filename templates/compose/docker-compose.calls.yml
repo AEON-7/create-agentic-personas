@@ -1,0 +1,86 @@
+# Matrix homeserver + WebRTC call infrastructure (docs/02 + docs/03).
+# Postgres + Dendrite + Caddy (TLS) + Coturn (TURN) [+ optional Jitsi for group/video].
+#
+# Secrets: set POSTGRES_PASSWORD and the Coturn static-auth-secret via a .env file
+# next to this compose (git-ignored), never inline. Replace SERVER_IP / matrix.example.com.
+#
+#   POSTGRES_PASSWORD=<generate>     # in ./.env
+#
+# Bring up:  docker compose -f docker-compose.calls.yml up -d
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: dendrite
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set in .env}
+      POSTGRES_DB: dendrite
+    volumes:
+      - dendrite_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dendrite"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks: [dendrite-internal]
+
+  dendrite:
+    image: matrixdotorg/dendrite-monolith:latest
+    restart: unless-stopped
+    volumes:
+      - ./config:/etc/dendrite:ro            # dendrite.yaml + signing key (host-local, git-ignored)
+      - dendrite_media:/var/dendrite/media
+      - dendrite_jetstream:/var/dendrite/jetstream
+      - dendrite_searchindex:/var/dendrite/searchindex
+    ports:
+      - "127.0.0.1:8008:8008"                # localhost only; Caddy terminates TLS
+    depends_on:
+      postgres: { condition: service_healthy }
+    networks: [dendrite-internal]
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy/certs:/certs:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [dendrite, coturn]
+    networks: [dendrite-internal]
+
+  coturn:
+    image: coturn/coturn
+    restart: unless-stopped
+    network_mode: host                        # simplest correct option for TURN relay
+    # If you can't use host networking, publish these and set external-ip carefully:
+    #   "3478:3478", "3478:3478/udp", "4443:4443", "4443:4443/udp", "10000-10100:10000-10100/udp"
+    volumes:
+      - ./turn/turnserver.conf:/etc/turnserver.conf:ro
+      - ./caddy/certs:/certs:ro
+    environment:
+      - TZ=UTC
+
+  # ── OPTIONAL: Jitsi for multi-party / video. Omit for 1:1 persona voice calls. ──
+  # jitsi-videobridge:
+  #   image: jitsi/jitsi-videobridge2:latest
+  #   restart: unless-stopped
+  #   environment:
+  #     - JVB_ADVERTISE_IPS=SERVER_IP
+  #     - JVB_PORT=4443
+  #   ports: ["4443:4443/udp", "10000-10100:10000-10100/udp"]
+  #   networks: [dendrite-internal]
+
+networks:
+  dendrite-internal:
+
+volumes:
+  dendrite_pgdata:
+  dendrite_media:
+  dendrite_jetstream:
+  dendrite_searchindex:
+  caddy_data:
+  caddy_config:

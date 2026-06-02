@@ -1,0 +1,45 @@
+# ── Secrets: NEVER commit these ───────────────────────────────────────────────
+*.env
+.env
+.env.*
+!*.env.example
+!env.example
+secrets/
+crypto-store/
+*creds*.json
+*credentials*.json
+*allowFrom*.json
+*.pem
+*.key
+*.crt
+turn_users
+turnserver.local.conf
+
+# ── Per-persona runtime state (machine-specific, not guide material) ──────────
+corpus/*/vault/.obsidian/
+corpus/**/index/
+*.faiss
+*.sqlite
+*.db
+transcripts/
+sessions/
+logs/
+*.log
+
+# ── Audio / model artifacts (large, licensed, or personal) ────────────────────
+reference-audio/
+*.wav
+*.mp3
+*.flac
+*.safetensors
+*.gguf
+*.bin
+
+# ── OS / editor cruft ─────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+node_modules/
+.idea/
+.vscode/

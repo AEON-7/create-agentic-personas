@@ -1,0 +1,25 @@
+# Templated voice-agent unit. Install per persona as a CONCRETE unit
+# (matrix-voip-agent-<name>.service) — the scaffold script does this for you.
+# To use the systemd template form directly: `systemctl --user enable --now
+# matrix-voip-agent@ada` and put the .env at ~/voip-%i/.env.
+#
+# Install: ~/.config/systemd/user/matrix-voip-agent@.service
+#   (or a concrete copy named matrix-voip-agent-<name>.service)
+
+[Unit]
+Description=Matrix VoIP voice agent for persona %i
+After=default.target sound.target
+Wants=pipewire.service pipewire-pulse.service
+
+[Service]
+Type=simple
+WorkingDirectory=%h/matrix-voip-agent
+EnvironmentFile=%h/voip-%i/.env
+ExecStart=/usr/bin/node %h/matrix-voip-agent/dist/index.js
+Restart=always
+RestartSec=3
+# Keep a persona from pegging the box; tune for your hardware:
+# CPUQuota=200%
+
+[Install]
+WantedBy=default.target

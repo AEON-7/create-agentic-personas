@@ -1,0 +1,19 @@
+# Per-persona STT PipeWire loopback (creates the audio-IN virtual devices).
+# Install as a concrete unit <name>-voip-stt.service (the scaffold script does this),
+# or use the template form: systemctl --user enable --now voip-stt@ada
+#
+# Install: ~/.config/systemd/user/voip-stt@.service
+
+[Unit]
+Description=%i VoIP STT (PipeWire loopback)
+After=pipewire.service
+Wants=pipewire.service
+
+[Service]
+Type=simple
+ExecStart=%h/voip-%i/stt-loopback.sh
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target
