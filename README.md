@@ -107,11 +107,15 @@ Everything that is *secret* lives in `.env`, `secrets/`, `crypto-store/`, and th
 | [`docs/08-register-bind-gate.md`](docs/08-register-bind-gate.md) | Registering the agent, binding its Matrix account, mention‑gating, and **where secrets live**. |
 | [`templates/`](templates/) | Copy‑paste: persona files, annotated `.env`, systemd units, `turnserver.conf`, `docker-compose`. |
 | [`scripts/`](scripts/) | `new-persona.sh` (scaffold a persona) and `gen-secrets.sh` (mint tokens). |
+| [`setup.sh`](setup.sh) · [`sync.sh`](sync.sh) | First‑time infra/tool validation; diff‑preview self‑updater. |
+| [`ATTRIBUTION.md`](ATTRIBUTION.md) | Upstream credits + verified licenses for every component. |
 
 ## Quickstart (one persona, assuming infra is up)
 
 ```bash
 # 0. One-time: stand up inference (docs/01), homeserver (docs/02), TURN (docs/03).
+#    Then validate everything is reachable + tooling is present:
+./setup.sh --infer-host INFER_HOST
 
 # 1. Scaffold a new persona named "ada"
 ./scripts/new-persona.sh ada --port 8210
