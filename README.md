@@ -1,5 +1,8 @@
 # Create Agentic Personas
 
+[![☕ Tips — Support the work](https://img.shields.io/badge/%E2%98%95_Tips-Support_the_work-ff5e5b?style=flat)](#-support-the-work)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat)](LICENSE)
+
 *A complete, reproducible blueprint for standing up a fully‑embodied AI persona —
 one that lives in **Matrix chat**, holds **real‑time WebRTC voice calls**, speaks
 in its **own cloned or designed voice**, and answers from a **private knowledge
@@ -155,6 +158,44 @@ commands — is in [`AGENTS.md`](AGENTS.md).
 - **Secrets live in `.env`/`secrets/`, never in the persona or the repo.**
 - **Consent and honesty for voices.** Clone voices you have the right to clone;
   don't impersonate real people to deceive. See [`SECURITY.md`](SECURITY.md).
+
+## ☕ Support the work
+
+If this guide helped you stand up your own personas, tips are deeply appreciated — they
+go directly toward more compute, more models, and more open releases. **Scan a QR with
+your wallet, or click any address below to copy.**
+
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <strong>₿ Bitcoin (BTC)</strong><br/>
+      <img src="assets/qr/btc.png" alt="BTC QR" width="200"/><br/>
+      <sub><code>bc1q09xmzn00q4z3c5raene0f3pzn9d9pvawfm0py4</code></sub>
+    </td>
+    <td align="center" width="50%">
+      <strong>Ξ Ethereum (ETH)</strong><br/>
+      <img src="assets/qr/eth.png" alt="ETH QR" width="200"/><br/>
+      <sub><code>0x1512667F6D61454ad531d2E45C0a5d1fd82D0500</code></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <strong>◎ Solana (SOL)</strong><br/>
+      <img src="assets/qr/sol.png" alt="SOL QR" width="200"/><br/>
+      <sub><code>DgQsjHdAnT5PNLQTNpJdpLS3tYGpVcsHQCkpoiAKsw8t</code></sub>
+    </td>
+    <td align="center" width="50%">
+      <strong>ⓜ Monero (XMR)</strong><br/>
+      <img src="assets/qr/xmr.png" alt="XMR QR" width="200"/><br/>
+      <sub><code>836XrSKw4R76vNi3QPJ5Fa9ugcyvE2cWmKSPv3AhpTNNKvqP8v5ba9JRL4Vh7UnFNjDz3E2GXZDVVenu3rkZaNdUFhjAvgd</code></sub>
+    </td>
+  </tr>
+</table>
+
+> **Ethereum L2s (Base, Arbitrum, Optimism, Polygon, etc.) and EVM‑compatible tokens**
+> can be sent to the same Ethereum address.
+
+---
 
 ## License
 
